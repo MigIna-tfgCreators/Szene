@@ -58,6 +58,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0")
     implementation ("com.github.antonKozyriatskyi:CircularProgressIndicator:1.3.0")
     implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
 
 
     testImplementation(libs.junit)

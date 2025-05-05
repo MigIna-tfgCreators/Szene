@@ -1,23 +1,15 @@
 package com.example.szene.views
 
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.szene.R
 import com.example.szene.databinding.ActivityMainBinding
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.myapplication.core.API
-import com.example.myapplication.models.PeliculaModel
-import com.example.myapplication.network.RetrofitClient
+import com.example.szene.models.PeliculaModel
 import com.example.myapplication.viewmodels.PeliculasViewModel
 import com.example.myapplication.views.AdapterPeliculas
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 

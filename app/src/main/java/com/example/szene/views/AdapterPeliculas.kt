@@ -1,23 +1,20 @@
 package com.example.myapplication.views
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.core.API
-import com.example.myapplication.models.PeliculaModel
-import com.example.myapplication.network.RetrofitClient
+import com.example.szene.models.PeliculaModel
 import com.example.szene.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.szene.views.DetallesActivity
 
 class AdapterPeliculas(
     val context: Context,
@@ -47,6 +44,13 @@ class AdapterPeliculas(
 
        holder.pcIndicator.maxProgress = API.MAX_CALIFICATION
        holder.pcIndicator.setCurrentProgress(peliculas.votoPromedio.toDouble())
+
+       holder.cvPelicula.setOnClickListener {
+           val intent = Intent(context, DetallesActivity::class.java)
+           intent.putExtra("id_pelicula", peliculas.id)
+           context.startActivity(intent)
+       }
+
 
 
    }

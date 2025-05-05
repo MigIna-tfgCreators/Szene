@@ -1,11 +1,12 @@
-package com.example.myapplication.models
+package com.example.szene.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class PeliculaModel(
     @SerializedName("id")
-    var id:String,
-    @SerializedName("original_title")
+    var id:Int,
+    @SerializedName("title")
     var nombrePelicula:String,
     @SerializedName("overview")
     var descripcion: String,
@@ -17,4 +18,4 @@ data class PeliculaModel(
     var votoPromedio: String,
     @SerializedName("vote_count")
     var totalVotos: String
-)
+) : Serializable
