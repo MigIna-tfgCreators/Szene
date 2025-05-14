@@ -1,5 +1,6 @@
 package com.example.myapplication.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,10 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.core.API
 import com.example.szene.models.PeliculaModel
 import com.example.myapplication.network.RetrofitClient
-import com.example.szene.network.PeliculaService
+import com.example.szene.network.response.Generos
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class PeliculasViewModel: ViewModel() {
 
@@ -51,6 +53,63 @@ class PeliculasViewModel: ViewModel() {
             }
         }
     }
+
+    fun buscarPeliculas(query: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.searchService.searchMovies(query, API.API_KEY)
+
+                if (response.isSuccessful) {
+                    val resultados = response.body()
+                        ?.resultados
+                        ?.sortedByDescending { it.votoPromedio }
+                        ?.take(5) ?: emptyList()
+
+
+                    withContext(Dispatchers.Main) {
+                        _listaPelicuas.value = resultados
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        _listaPelicuas.value = emptyList()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    _listaPelicuas.value = emptyList()
+                }
+            }
+        }
+    }
+
+    fun limpiarPeliculas() {
+        _listaPelicuas.value = emptyList()
+    }
+
+
+    private val _generos = MutableLiveData<List<Generos>>()
+    val generos: LiveData<List<Generos>> = _generos
+
+    fun cargarGeneros() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.searchService.getGeneros(API.API_KEY)
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        withContext(Dispatchers.Main) {
+                            _generos.value = it.genres
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                // Manejo de error si quieres
+            }
+        }
+    }
+
+
+
+
 
     fun obtenerTrailerYouTube(idPelicula: Int, apiKey: String) {
         viewModelScope.launch(Dispatchers.IO) {
