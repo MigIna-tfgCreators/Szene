@@ -1,7 +1,15 @@
 package com.example.szene.views
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.widget.addTextChangedListener
 import com.example.szene.R
 import com.example.szene.databinding.ActivityMainBinding
@@ -63,8 +71,34 @@ class MainActivity : AppCompatActivity() {
             cambiarTitulo("Top")
         }
 
+        val etBuscarOnline = findViewById<EditText>(R.id.etBuscarOnline)
+        val llFiltros = findViewById<LinearLayout>(R.id.llFiltros)
+
+        binding.cvBuscador.setOnClickListener {
+            etBuscarOnline.visibility = View.VISIBLE
+            llFiltros.visibility = View.VISIBLE
+            etBuscarOnline.requestFocus()
+
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(etBuscarOnline, InputMethodManager.SHOW_IMPLICIT)
+
+        }
+
+        etBuscarOnline.addTextChangedListener { texto ->
+            val query = texto.toString().trim()
+            if (query.length >= 3) {
+                viewModel.buscarPeliculas(query)
+            }else {
+                viewModel.limpiarPeliculas()
+            }
+        }
+
+
+
+
         viewModel.obtenerCartelera()
     }
+
 
     private fun cambiarTitulo(titulo: String) {
         binding.tvTitulo.text = titulo
@@ -89,4 +123,7 @@ class MainActivity : AppCompatActivity() {
         adapterPeliculas = AdapterPeliculas(this, arrayListOf())
         binding.rvPeliculas.adapter = adapterPeliculas
     }
+
+
+
 }

@@ -24,9 +24,7 @@ interface PeliculaService {
         @Query("language") language: String = "es-ES"
     ): Call<CreditosResponse>
 
-
-
-    }
+}
 
 
 

@@ -35,4 +35,16 @@ interface WebService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String = "es-ES"
     ): Response<VideosResponse>
-}
+
+    @GET("search/movie")
+    suspend fun searchMovies(
+        @Query("query") query: String,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String = "es-ES"
+     ): Response<PeliculasResponse>
+
+
+    }
+
+
+
